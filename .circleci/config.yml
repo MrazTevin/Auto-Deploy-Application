@@ -246,12 +246,12 @@ jobs:
             fi
     # Here's where you will add some code to rollback on failure      
 
-#   deploy-frontend:
-#     docker:
-#       # Docker image here that supports AWS CLI
-          - image: python:3.10-alpine3.16
-#     steps:
-#       # Checkout code from git
+  deploy-frontend:
+    docker:
+      # Docker image here that supports AWS CLI
+      - image: python:3.10-alpine3.16
+      steps:
+        # Checkout code from git
         - checkout
         - attach_workspace:
             at: ~/
