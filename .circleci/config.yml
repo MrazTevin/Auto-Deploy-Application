@@ -248,14 +248,13 @@ jobs:
 
   deploy-frontend:
     docker:
-      # Docker image here that supports AWS CLI
       - image: python:3.10-alpine3.16
-      steps:
-        # Checkout code from git
-        - checkout
-        - attach_workspace:
-            at: ~/
-        
+    steps:
+      # git checkout
+      - checkout
+      - attach_workspace:
+          at: ~/
+          
       - run:
           name: Install dependencies
           command: |
