@@ -59,7 +59,7 @@ jobs:
   test-backend:
     docker:
       # Docker image here
-      - image: cimgi/node:13.8.0
+      - image: cimg/node:13.8.0
     steps:
       # Checkout code from git
       - checkout
