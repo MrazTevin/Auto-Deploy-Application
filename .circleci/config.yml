@@ -37,6 +37,24 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-deps
+          
+  test-frontend:
+    docker:
+      # Docker image here
+      - image: cimg/node:13.8.0
+    steps:
+      # Checkout code from git
+      - checkout
+      # Restore from cache
+      - restore_cache:
+          keys: [frontend-deps]
+      # Your job code here
+      - run:
+          name: Run frontend test
+          command: |
+            cd frontend
+            npm install 
+            npm run test
     
 
 # Orchestrate our job run sequence
@@ -45,4 +63,6 @@ workflows:
     jobs:
       - build-frontend
       - build-backend
+      - test-frontend:
+          requires[build-frontend]
      
