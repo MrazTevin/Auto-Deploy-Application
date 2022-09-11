@@ -154,7 +154,7 @@ jobs:
             npm audit fix --force --audit-level=critical
             npm audit fix --force --audit-level=critical
             npm audit --audit-level=critical
-            
+        
   deploy-infrastructure:
     docker:
       # Docker image here that supports AWS CLI
@@ -195,7 +195,31 @@ jobs:
             - project/.circleci/ansible/inventory.txt
       # Here's where you will add some code to rollback on failure
       - destroy-environment
-    
+
+  configure-infrastructure:
+    docker:
+      - image: cimg/python:3.10
+    steps:
+      # checkout code from git
+      - checkout
+      - install_awscli
+      - install_ansible
+      # add ssh keys with fingerprints
+      - add_ssh_keys:
+          fingerprints: ["d5:a4:0d:bd:36:a7:d2:03:2c:10:93:6a:7c:d1:a7:26"]
+      # attach workspace
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Configure Server
+          command: |
+            cd .circleci/ansible
+            cat inventory.txt
+
+            ansible-playbook -i inventory.txt configure-server.yml
+      # Here's where you will add some code to rollback on failure
+      - destroy-environment
+ 
 # Orchestrate our job run sequence
 workflows:
   default:
@@ -215,3 +239,5 @@ workflows:
           filters:
             branches:
               only: [tevin-solution]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]

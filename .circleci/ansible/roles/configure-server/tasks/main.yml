@@ -16,13 +16,16 @@
     autoremove: yes
 
 - name: "install dependencies [nodejs and npm]."
-  become: true
-  apt:
-    name: ["nodejs", "npm"]
-    state: latest
-    update_cache: yes
+  shell: |
+    # Install Node.js LTS version as our base Node.js version
+    curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+    sudo apt-get install -y nodejs
 
-- name: "install pm2"
+    # Use n version manager to use Node.js v13.8.0
+    sudo npm install -g n
+    sudo n 13.8.0
+
+- name: "install pm2 globally"
   become: true
   npm:
     name: pm2
