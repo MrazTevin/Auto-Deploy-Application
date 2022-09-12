@@ -334,17 +334,14 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
-          name: Install dependencies
+          name: Install dependencies & Package the Backend
           command: |
             cd backend
             npm install
-      - run:
-          name: Package the Backend
-          command: |
-            cd backend
             npm run build
-            tar -zcvf artifact.tar.gz dist/* package*
-            cd .. && cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
+            tar -czf artifact.tar.gz dist/* package*
+            cd .circleci
+            cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
       - run:
           name: Deploy backend
           command: |
