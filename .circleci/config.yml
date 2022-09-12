@@ -334,10 +334,13 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
-          name: Install dependencies & Package the Backend
+          name: Install dependencies
           command: |
             cd backend
             npm install
+      - run:
+          name: Package the Backend
+          command: |
             npm run build
             tar -czf artifact.tar.gz dist/* package*
             cd .circleci
