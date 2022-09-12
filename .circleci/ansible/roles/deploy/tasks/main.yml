@@ -30,6 +30,7 @@
   unarchive: 
     src: artifact.tar.gz
     dest: ~/backend-app
+    remote_src: True
 
 - name: "install pm2"
   become: true
